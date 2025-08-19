@@ -30,11 +30,8 @@ Solution: The issue was solved by using AsNoTracking to prevent EF Core from tra
 Code Example:
 
 var history = _context.AccountHistories
-
     .AsNoTracking()
-    
     .Where(a => a.AccountId == accountId)
-    
     .ToList();
 
 3.2 Handling Large Result Sets with Pagination:
@@ -46,16 +43,11 @@ Code Example:
 var pageSize = 20;
 
 var data = _context.AccountHistories
-
     .AsNoTracking()
-    
     .OrderByDescending(a => a.Date)
-    
     .Skip((pageNumber - 1) * pageSize)
-    
     .Take(pageSize)
-    
-    .ToList();
+    .ToList(); 
 
 3.3 Handling Extra Spaces in Strings:
 
@@ -65,9 +57,7 @@ Solution: The .trim() function was used in JavaScript/jQuery, and (.Trim() & Reg
 Examples:
 C#:  
 var text = Regex.Replace(row.Description.ToString(), @"^(<br\s*/?>\s*)+","");
-
 text = Regex.Replace(text, @"(\s*<br\s*/?>)+$", "");
-
 row.Description = text;
 
 
