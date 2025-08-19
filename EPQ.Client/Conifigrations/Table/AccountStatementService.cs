@@ -17,7 +17,7 @@ namespace EPQ.Client.Conifigrations.Table
 
         public async Task<PagedResult<StatementRowDto>> GetStatementAsync(StatementRequest req, CancellationToken ct = default)
         {
-            // جِب نوع الحساب مرة واحدة
+            // Get Account By AccountId
             var account = await _uow.Balances.GetDbSet()
                 .AsNoTracking()
                 .Where(b => b.BalanceId == req.AccountId)
@@ -34,7 +34,7 @@ namespace EPQ.Client.Conifigrations.Table
                          && h.Date >= req.DateFrom
                          && h.Date <= req.DateTo);
 
-            // Global search (على الوصف أو المبلغ… زوّد لو عندك أعمدة أخرى)
+            // Global search
             if (!string.IsNullOrWhiteSpace(req.Search))
             {
                 string s = req.Search.Trim();
@@ -45,7 +45,7 @@ namespace EPQ.Client.Conifigrations.Table
                     h.PrevBalnce.ToString().Contains(s));
             }
 
-            // إجمالي قبل التقسيم
+            
             int recordsFiltered = await hist.CountAsync(ct);
 
             // Totals
@@ -58,8 +58,7 @@ namespace EPQ.Client.Conifigrations.Table
             decimal totalCredits = totalsProjection.Sum(x => (decimal)(x.Creditor ?? 0m));
             decimal firstPrev = totalsProjection.FirstOrDefault()?.PrevBalnce ?? 0m;
 
-            // لتحديد آخر رصيد نهائي: نحتاج آخر صف بعد ترتيب بالتاريخ صعودي
-            // احسبه من آخر عنصر
+            //Get Last Record before sorting
             decimal lastFinal = 0m;
             if (totalsProjection.Count() > 0)
             {
@@ -70,7 +69,7 @@ namespace EPQ.Client.Conifigrations.Table
                 lastFinal = isDebitType ? ((prev + deb) - cre) : ((prev + cre) - deb);
             }
 
-            // Sorting (آمن بدون Dynamic.Core)
+            // Sorting 
             IOrderedQueryable<BalanceHistory> ordered = (req.SortColumn, req.SortDir?.ToLower()) switch
             {
                 ("AccountId", "desc") => hist.OrderByDescending(h => h.BalanceId),
@@ -139,19 +138,13 @@ namespace EPQ.Client.Conifigrations.Table
             return dt;
         }
 
+
+        // Details Of Balance_History using BalanceHisId
         public async Task<StatementRowDto?> GetTxDetailsAsync(int id, CancellationToken ct = default)
         {
             var h = _uow.BalanceHistories.Find(x => x.BalanceHisId == id);
             var b = _uow.Balances.Find(x => x.BalanceId == h.BalanceId);
-                    
-            //var q = from h in _uow.BalanceHistories.GetDbSet().AsNoTracking()
-            //        join b in _uow.Balances.GetDbSet().AsNoTracking()
-            //            on h.BalanceId equals b.BalanceId
-            //        where h.BalanceId == id
-            //        select new { h, b };
-
-
-
+                   
             if (h is null) return null;
 
             bool isDebitType = string.Equals(b.BalanceType, "debit", StringComparison.OrdinalIgnoreCase);

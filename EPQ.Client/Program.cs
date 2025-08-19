@@ -16,9 +16,8 @@ builder.Services.AddControllers()
 
 builder.Services.AddDbContext<EPQContext>(options =>
           options.UseSqlServer(
-             //builder.Configuration.GetConnectionString("DefaultConnection"),
-             builder.Configuration.GetConnectionString("Data Source=.\\SQLExpress;Initial Catalog=elite_erp_23_4_2024;User ID=sa;Password=01151141556;Trust Server Certificate=True"),
-              b => b.MigrationsAssembly(typeof(EPQContext).Assembly.FullName)));
+             builder.Configuration.GetConnectionString("DefaultConnection"),
+             b => b.MigrationsAssembly(typeof(EPQContext).Assembly.FullName)));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAccountStatementService, AccountStatementService>();
 var app = builder.Build();

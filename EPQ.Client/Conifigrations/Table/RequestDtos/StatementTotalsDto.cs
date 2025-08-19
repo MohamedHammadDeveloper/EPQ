@@ -10,7 +10,7 @@ namespace EPQ.Client.RequestDtos
     {
         public decimal TotalDebits { get; set; }
         public decimal TotalCredits { get; set; }
-        public decimal AccountFinalBalance { get; set; }     // آخر صف بعد الفرز تاريخيًا
-        public decimal FirstPreviousBalance { get; set; }    // أول صف (أقدم سجل) Prev_Balnce
+        public decimal AccountFinalBalance { get; set; }     
+        public decimal FirstPreviousBalance { get; set; }    
     }
 }

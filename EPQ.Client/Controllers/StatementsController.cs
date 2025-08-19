@@ -54,7 +54,7 @@ namespace EPQ.Client.Controllers
                 recordsTotal = result.RecordsFiltered,
                 recordsFiltered = result.RecordsFiltered,
                 data = result.Data,
-                totals = result.Totals    // نبعته علشان footer والـ summary div
+                totals = result.Totals   
             });
         }
 
@@ -72,7 +72,7 @@ namespace EPQ.Client.Controllers
             return row is null ? NotFound() : Ok(row);
         }
 
-        // تصدير Excel (ClosedXML) — Stub مختصر
+        // Excel
         [HttpGet("export")]
         public async Task<IActionResult> Export([FromQuery] int accountId, [FromQuery] DateTime dateFrom, [FromQuery] DateTime dateTo)
         {
