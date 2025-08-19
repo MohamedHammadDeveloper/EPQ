@@ -23,7 +23,8 @@ This project is a web-based system developed using ASP.NET Core MVC with C# , Re
 ---------------------------------------
 3. Important Problems and Solutions:
 ----------------------------------------
-3.1 Large Data Retrieval (Account History)
+3.1 Large Data Retrieval (Account History):
+
 Problem: When retrieving account history with a large dataset, the system was facing performance issues and slow response times due to Entity Framework tracking all entities.
 Solution: The issue was solved by using AsNoTracking to prevent EF Core from tracking the entities, which improved performance significantly.
 Code Example:
@@ -32,7 +33,8 @@ var history = _context.AccountHistories
     .Where(a => a.AccountId == accountId)
     .ToList();
 
-3.2 Handling Large Result Sets with Pagination
+3.2 Handling Large Result Sets with Pagination:
+
 Problem: Loading all records at once in the front-end (tables, grids) caused UI freezing and long rendering times.
 Solution: Pagination was implemented on both backend and frontend, ensuring only a limited subset of data is fetched and displayed at a time.
 Code Example:
@@ -44,7 +46,8 @@ var data = _context.AccountHistories
     .Take(pageSize)
     .ToList();
 
-3.3 Handling Extra Spaces in Strings
+3.3 Handling Extra Spaces in Strings:
+
 Problem: Data retrieved from the database contained unnecessary spaces before and after text, causing UI inconsistencies.
 Solution: The .trim() function was used in JavaScript/jQuery, and (.Trim()  &   Regex) was used in C# to clean up the strings.
 Examples:
