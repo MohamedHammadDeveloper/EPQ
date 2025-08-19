@@ -40,31 +40,34 @@ Problem: Loading all records at once in the front-end (tables, grids) caused UI 
 Solution: Pagination was implemented on both backend and frontend, ensuring only a limited subset of data is fetched and displayed at a time.
 Code Example:
 
+```
 var pageSize = 20;
-
 var data = _context.AccountHistories
     .AsNoTracking()
     .OrderByDescending(a => a.Date)
     .Skip((pageNumber - 1) * pageSize)
     .Take(pageSize)
-    .ToList(); 
-
+    .ToList();
+```
 3.3 Handling Extra Spaces in Strings:
 
 Problem: Data retrieved from the database contained unnecessary spaces before and after text, causing UI inconsistencies.
 Solution: The .trim() function was used in JavaScript/jQuery, and (.Trim() & Regex) was used in C# to clean up the strings.
 
 Examples:
-C#:  
+C#: 
+```
 var text = Regex.Replace(row.Description.ToString(), @"^(<br\s*/?>\s*)+","");
 text = Regex.Replace(text, @"(\s*<br\s*/?>)+$", "");
 row.Description = text;
+```
 
-
-JavaScript:  var cleanText = text.trim();
-
+JavaScript: 
+```
+ var cleanText = text.trim();
+```
 
 ----------------------------------------------------------
 Best regards,
-Mohamed Hammad
+Mohamed Hammad :)
 
