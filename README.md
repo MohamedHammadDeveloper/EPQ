@@ -50,11 +50,14 @@ var data = _context.AccountHistories
 
 Problem: Data retrieved from the database contained unnecessary spaces before and after text, causing UI inconsistencies.
 Solution: The .trim() function was used in JavaScript/jQuery, and (.Trim()  &   Regex) was used in C# to clean up the strings.
+
 Examples:
 C#:  
 var text = Regex.Replace(row.Description.ToString(), @"^(<br\s*/?>\s*)+","");
-    text = Regex.Replace(text, @"(\s*<br\s*/?>)+$", "");
-    row.Description = text;
+text = Regex.Replace(text, @"(\s*<br\s*/?>)+$", "");
+row.Description = text;
+
+
 JavaScript:  var cleanText = text.trim();
 
 
